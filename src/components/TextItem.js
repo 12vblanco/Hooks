@@ -8,6 +8,10 @@ const TextItem = (props) => {
   const [show, toggleShow] = useState(true);
   const [count, setCount] = useState(0);
 
+  const showCounter = () => {
+    toggleShow(!show);
+  };
+
   const increaseCount = () => {
     setCount(count + 1);
   };
@@ -32,7 +36,7 @@ const TextItem = (props) => {
           </PriceDiv>
         )}
         <EditDiv>
-          <Button onClick={() => toggleShow(!show)}>
+          <Button onClick={showCounter}>
             {show ? <BsFillBasket2Fill /> : "Show details"}
           </Button>
         </EditDiv>
