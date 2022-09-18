@@ -87,7 +87,6 @@ const ImgDiv = styled.div`
   width: 90px;
   height: 90px;
   margin-right: 3%;
-
   img {
     max-width: 100%;
     height: 100%;
