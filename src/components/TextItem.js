@@ -1,75 +1,60 @@
-import { Input } from "antd";
 import React, { useState } from "react";
+import { AiOutlineEdit } from "react-icons/ai";
 import { BsFillBasket2Fill } from "react-icons/bs";
 import styled from "styled-components";
 import Card from "../UI/Card";
+import BasketComp from "./BasketComp";
+import Form from "./Form";
 
 const TextItem = (props) => {
   const [show, toggleShow] = useState(true);
-  const [count, setCount] = useState(0);
 
   const showCounter = () => {
     toggleShow(!show);
   };
 
-  const increaseCount = () => {
-    setCount(count + 1);
-  };
-  const decreaseCount = () => {
-    setCount(Math.max(count - 1, 0));
+  const [showEditForm, toggleShowEdit] = useState(false);
+
+  const showEdit = () => {
+    toggleShowEdit(!showEditForm);
   };
 
   return (
     <Card>
-      <DivFlex>
-        <ImgDiv>
-          <img src={props.image} alt={props.alt} />
-        </ImgDiv>
-        <TitleDiv>
-          <h1>{props.title}</h1>
-          <h3>{props.subtitle}</h3>
-        </TitleDiv>
-        {show && (
-          <PriceDiv>
-            <h2>{props.price}</h2>
-            <h2>{props.uom}</h2>
-          </PriceDiv>
-        )}
-        <EditDiv>
-          <Button onClick={showCounter}>
-            {show ? <BsFillBasket2Fill /> : "Show details"}
-          </Button>
-        </EditDiv>
-        {!show && (
-          <BasketDiv style={{ alignItems: "flex-start", marginLeft: "3%" }}>
-            <span
-              onClick={increaseCount}
-              style={{ fontSize: "65px", cursor: "pointer" }}
-            >
-              +
-            </span>
-            <Input
-              value={count}
-              size="large"
-              style={{
-                width: "50px",
-                height: "30px",
-                position: "relative",
-                top: "26px",
-                fontSize: "32px",
-                textAlign: "centre",
-              }}
-              placeholder="0"
-            />
-            <span
-              onClick={decreaseCount}
-              style={{ fontSize: "65px", cursor: "pointer" }}
-            >
-              -
-            </span>
-          </BasketDiv>
-        )}
-      </DivFlex>
+      <InnerCard>
+        <DivFlex>
+          <ImgDiv>
+            <img src={props.image} alt={props.alt} />
+          </ImgDiv>
+          <TitleDiv>
+            <h1>{props.title}</h1>
+            <h3>{props.subtitle}</h3>
+          </TitleDiv>
+          {show && (
+            <PriceDiv>
+              <h2>{props.price}</h2>
+              <h2>{props.uom}</h2>
+            </PriceDiv>
+          )}
+          <EditDiv>
+            <Button onClick={showCounter}>
+              {show ? <BsFillBasket2Fill /> : "Show details"}
+            </Button>
+          </EditDiv>
+          {!show && <BasketComp />}
+          {show && (
+            <EditDiv>
+              <Button onClick={showEdit}>
+                <AiOutlineEdit />
+              </Button>
+            </EditDiv>
+          )}
+        </DivFlex>
+      </InnerCard>
+      <InnerCard>
+        {!showEditForm && null}
+        {showEditForm && <Form />}
+      </InnerCard>
     </Card>
   );
 };
@@ -81,6 +66,13 @@ const DivFlex = styled.div`
   width: 800px;
   height: 140px;
   padding-left: 12px;
+`;
+const InnerCard = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  padding: 12px 8px;
 `;
 
 const ImgDiv = styled.div`
@@ -126,14 +118,6 @@ const Button = styled.div`
   font-size: 22px;
   border-radius: 8px;
   cursor: pointer;
-`;
-
-const BasketDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  flex: 1;
 `;
 
 export default TextItem;
